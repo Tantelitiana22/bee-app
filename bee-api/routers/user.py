@@ -11,4 +11,4 @@ router = APIRouter(
 
 @router.post('/', response_model=UserDiplay)
 def create_user(request:UserBase, db:Session=Depends(get_db)):
-    return db_user.create_user(request, db)
+    return db_user.create_user(db, request)

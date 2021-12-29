@@ -31,7 +31,7 @@ class Comment(BaseModel):
     text:str
     username:str
     timestamp:datetime
-    class config:
+    class Config:
         orm_mode=True
 
 class PostDisplay(BaseModel):
@@ -41,7 +41,7 @@ class PostDisplay(BaseModel):
     caption:str
     timestamp: datetime
     user:User
-    comment: List[Comment]
+    comments: List[Comment]
     class Config:
         orm_mode=True
 

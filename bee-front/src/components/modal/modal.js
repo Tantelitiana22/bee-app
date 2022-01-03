@@ -166,7 +166,7 @@ function ModalNewPost({isOpen, setIsOpen, image,
                     value={caption}
                     onChange={(e)=>setCaption(e.target.value)}
                 />
-                <Button type="submit" onClick={e=>handleNewPost(e)} disabled={!(image && caption)?true:false}>Upload post</Button>
+                <Button type="submit" onClick={handleNewPost} disabled={!(image && caption)?true:false}>Upload post</Button>
             </form>
         </div>
     </div>

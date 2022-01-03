@@ -102,22 +102,19 @@ function App() {
     }
   }
 
-  async function setNewPost(){
+  async function setNewPostHandle(){
     const formatData = new FormData();
     formatData.append('image',image)
-    console.log(image)
     try{
-      const newImages = await axios.post('http://localhost:8000/post/image',
+      const newImages = await axios.post('http://localhost:8000/post/image',formatData,
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Autorization': authTokenType+' '+authToken
-        },
-        body:formatData
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        }
       })
-
       console.log(newImages)
-
     }catch(error){
         console.log(error)
     }
@@ -145,9 +142,9 @@ const signUp = (event)=>{
 }
 
 const handleNewPost = (event)=>{
-  event?.preventDefault();
-  setNewPost();
-
+  event.preventDefault();
+  setNewPostHandle();
+  setNewpost(false);
 }
 
   return (
@@ -170,7 +167,6 @@ const handleNewPost = (event)=>{
       setPassword={setPassword}
       email={email}
       setEmail={setEmail}
-      handleNewPost={handleNewPost}
       />
 
       <Modals.ModalNewPost isOpen={newPost}
@@ -179,6 +175,7 @@ const handleNewPost = (event)=>{
       setImage={setImage}
       caption={caption}
       setCaption={setCaption}
+      handleNewPost={handleNewPost}
       />
 
       <div className="app_header">

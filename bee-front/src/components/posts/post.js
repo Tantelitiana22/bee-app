@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import {Avatar, Button, Input} from '@material-ui/core'
 import './post.css'
-import {Avatar, Button} from '@material-ui/core'
 
 const BASE_URL = 'http://localhost:8000/'
 
-function Post({post}) {
+function Post({post, currentUser, authToken}) {
   const [imageUrl, setImageUrl] = useState('')
   const [comments, setComments] = useState([])
+  const [newComment, setNewComment] = useState('')
 
   useEffect(()=>{
     if(post.image_url_type === 'absolute'){
@@ -17,9 +19,59 @@ function Post({post}) {
 
   },[])
 
+  const onDeletePost = (id)=>{
+    axios.delete(BASE_URL+'post/delete/'+id,
+    {headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      Authorization: `Bearer ${authToken}`
+    }
+    })
+  }
+
+  async function retrieveComment(){
+    try{
+      const response = await axios.get(BASE_URL+'comment/all/'+post.id);
+      setComments(response.data);
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  async function createNewComment(){
+    const data = {
+        'username':currentUser,
+        "text": newComment,
+        "post_id": post.id
+    }
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+    },
+      data,
+      url:BASE_URL+'comment'
+    }
+
+    try{
+      await axios(options);
+      retrieveComment();
+    }catch(error){
+      console.error(error.response.data)
+    }
+  }
+
   useEffect(()=>{
     setComments(post.comments)
   }, [])
+
+  const postComment =(event)=>{
+    event.preventDefault();
+    createNewComment();
+    setNewComment('');
+  }
 
   return (
     <div className="post">
@@ -31,7 +83,10 @@ function Post({post}) {
         <div className="post_head_info">
           <h3>{post.user.username}</h3>
         </div>
-        <Button className='postDelete'>Delete</Button>
+        <Button className='postDelete'
+        disabled={(currentUser!==post.user.username)}
+        onClick={()=>onDeletePost(post.id)}
+        >Delete</Button>
       </div>
 
       <img
@@ -44,13 +99,24 @@ function Post({post}) {
       <div className="post_comments">
           {comments.map(comment=>{
             return(
-              <p key={comment.username}>
+              <p key={comment.id}>
                 <strong>{comment.username}</strong>:
                   {comment.text}
               </p>
             )
           })}
       </div>
+      {authToken &&
+      <form className="post_commentbox">
+        <Input className="post_input"
+        type="text"
+        placeholder="Add a comment..."
+        value={newComment}
+        onChange={e=>setNewComment(e.target.value)}
+        />
+        <Button className='post_button' type='submit' disabled={!newComment} onClick={postComment}>post</Button>
+      </form>
+      }
     </div>
   );
 }

@@ -26,7 +26,7 @@ function ModalSignIn({isOpen, setIsOpen, signIn,
         <div  className='modal-content' ref={ref}>
             <form className="app_signin">
                 <center>
-                    <img src="https://play-lh.googleusercontent.com/hc3-60fDkOcQlTAgzBbKuh-3EdT8dWax7BroX4zjW8_iKMlOFaE3orm9IUrP7V9zRLw"
+                    <img src="../../bee.png"
                     alt="beeApp"
                     className="app_head_image" />
                 </center>
@@ -83,7 +83,7 @@ function ModalSignUp({isOpen, setIsOpen, signUp,
         <div  className='modal-content' ref={ref}>
             <form className="app_signin">
                 <center>
-                    <img src="https://play-lh.googleusercontent.com/hc3-60fDkOcQlTAgzBbKuh-3EdT8dWax7BroX4zjW8_iKMlOFaE3orm9IUrP7V9zRLw"
+                    <img src="../../bee.png"
                     alt="beeApp"
                     className="app_head_image" />
                 </center>
@@ -151,7 +151,7 @@ function ModalNewPost({isOpen, setIsOpen, image,
         <div  className='modal-content' ref={ref}>
             <form className="app_signin">
                 <center>
-                    <img src="https://play-lh.googleusercontent.com/hc3-60fDkOcQlTAgzBbKuh-3EdT8dWax7BroX4zjW8_iKMlOFaE3orm9IUrP7V9zRLw"
+                    <img src="../../bee.png"
                     alt="beeApp"
                     className="app_head_image" />
                 </center>

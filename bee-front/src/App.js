@@ -66,7 +66,6 @@ function App() {
     let formData = new FormData();
     formData.append('username',username);
     formData.append('password',password);
-    console.log(username,password)
     try{
         const connection = await axios.post('http://localhost:8000/login',formData);
         setAuthToken(connection.data.access_token);
@@ -102,7 +101,34 @@ function App() {
     }
   }
 
-  async function setNewPostHandle(){
+  async function newPosthandle(imageUrl){
+    const data = {
+      "image_url": imageUrl,
+      image_url_type:"relative",
+      caption,
+      creator_id:userId
+            }
+      const options = {
+        method:'POST',
+        headers:{
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        data,
+        url:'http://localhost:8000/post'
+      }
+
+      try{
+        await axios(options)
+        window.location.reload();
+      }catch(error){
+        console.error(error.response.data)
+      }
+
+  }
+
+  async function setNewPostImage(){
     const formatData = new FormData();
     formatData.append('image',image)
     try{
@@ -114,7 +140,7 @@ function App() {
           'Authorization': `Bearer ${authToken}`
         }
       })
-      console.log(newImages)
+      newPosthandle(newImages.data.filename)
     }catch(error){
         console.log(error)
     }
@@ -143,7 +169,7 @@ const signUp = (event)=>{
 
 const handleNewPost = (event)=>{
   event.preventDefault();
-  setNewPostHandle();
+  setNewPostImage();
   setNewpost(false);
 }
 
@@ -180,7 +206,7 @@ const handleNewPost = (event)=>{
 
       <div className="app_header">
           <img
-          src="https://play-lh.googleusercontent.com/hc3-60fDkOcQlTAgzBbKuh-3EdT8dWax7BroX4zjW8_iKMlOFaE3orm9IUrP7V9zRLw"
+          src="bee.png"
           alt="beeApp"
           className="app_head_image"
           />
@@ -199,7 +225,7 @@ const handleNewPost = (event)=>{
           </div>
       </div>
       <div className="app_posts">
-        {posts.map(post=>(<Post post={post} key={post.id}/>))}
+        {posts.map(post=>(<Post post={post} currentUser={username} authToken={authToken} key={post.id}/>))}
       </div>
     </div>
   );

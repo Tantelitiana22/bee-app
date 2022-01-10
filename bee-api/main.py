@@ -6,11 +6,14 @@ from fastapi.staticfiles import StaticFiles
 from auth import authentication
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
-app.include_router(user.router)
-app.include_router(post.router)
-app.include_router(authentication.router)
-app.include_router(comment.router)
+app = FastAPI(title="BeeApp",
+            openapi_url="/api/v1/bee/openapi.json",
+            docs_url="/api/v1/bee/docs")
+
+app.include_router(user.router, prefix='/api/v1/bee')
+app.include_router(post.router, prefix='/api/v1/bee')
+app.include_router(authentication.router, prefix='/api/v1/bee')
+app.include_router(comment.router, prefix='/api/v1/bee')
 
 @app.get("/")
 def root():
@@ -18,7 +21,8 @@ def root():
 
 
 origins =[
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'http://localhost:8080'
 ]
 
 app.add_middleware(
@@ -32,3 +36,4 @@ app.add_middleware(
 models.Base.metadata.create_all(engine)
 
 app.mount('/images', StaticFiles(directory='images'), name='images')
+

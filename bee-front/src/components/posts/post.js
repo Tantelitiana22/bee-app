@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Avatar, Button, Input} from '@material-ui/core'
 import './post.css'
 
-const BASE_URL = 'http://localhost:8000/'
+const BASE_URL = 'http://localhost:8080/api/v1/bee/'
 
 function Post({post, currentUser, authToken}) {
   const [imageUrl, setImageUrl] = useState('')

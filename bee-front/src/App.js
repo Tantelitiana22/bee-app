@@ -6,7 +6,7 @@ import {Button} from '@material-ui/core';
 import './App.css';
 import './header.css';
 
-const BASE_URL = 'http://localhost:8000/'
+const BASE_URL = 'http://localhost:8080/api/v1/bee/'
 
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
     formData.append('username',username);
     formData.append('password',password);
     try{
-        const connection = await axios.post('http://localhost:8000/login',formData);
+        const connection = await axios.post(`${BASE_URL}login`,formData);
         setAuthToken(connection.data.access_token);
         setAuthTokenType(connection.data.token_type);
         setUserId(connection.data.user_id);
@@ -89,7 +89,7 @@ function App() {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         data,
-        url:'http://localhost:8000/user'
+        url:`${BASE_URL}user/`
       }
       const response = await axios(options);
       setUsername(response.data.username)
@@ -116,7 +116,7 @@ function App() {
           'Content-Type': 'application/json'
         },
         data,
-        url:'http://localhost:8000/post'
+        url:`${BASE_URL}post/`
       }
 
       try{
@@ -127,12 +127,11 @@ function App() {
       }
 
   }
-
   async function setNewPostImage(){
     const formatData = new FormData();
     formatData.append('image',image)
     try{
-      const newImages = await axios.post('http://localhost:8000/post/image',formatData,
+      const newImages = await axios.post(`${BASE_URL}post/image`,formatData,
       {
         headers: {
           'Content-Type': 'multipart/form-data',

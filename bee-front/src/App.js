@@ -34,6 +34,17 @@ function App() {
     setUsername(userLogged?userLogged:'')
   },[])
 
+  const onDeletePost = (id)=>{
+    axios.delete(BASE_URL+'post/delete/'+id,
+    {headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      Authorization: `Bearer ${authToken}`
+    }
+    })
+    setPosts(posts.filter(keepPost=>keepPost.id!==id))
+  }
+
   useEffect(()=>{
     authToken? localStorage.setItem('authToken', authToken): localStorage.removeItem('authToken')
     authTokenType? localStorage.setItem('authTokenType', authTokenType): localStorage.removeItem('authTokenType')
@@ -224,7 +235,11 @@ const handleNewPost = (event)=>{
           </div>
       </div>
       <div className="app_posts">
-        {posts.map(post=>(<Post post={post} currentUser={username} authToken={authToken} key={post.id}/>))}
+        {posts.map(post=>(<Post post={post}
+          onDeletePost={onDeletePost}
+          currentUser={username}
+          authToken={authToken}
+          key={post.id}/>))}
       </div>
     </div>
   );

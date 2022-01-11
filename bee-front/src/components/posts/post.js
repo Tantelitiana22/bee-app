@@ -5,7 +5,7 @@ import './post.css'
 
 const BASE_URL = 'http://localhost:8080/api/v1/bee/'
 
-function Post({post, currentUser, authToken}) {
+function Post({post, currentUser, authToken, onDeletePost}) {
   const [imageUrl, setImageUrl] = useState('')
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
@@ -18,16 +18,6 @@ function Post({post, currentUser, authToken}) {
     }
 
   },[])
-
-  const onDeletePost = (id)=>{
-    axios.delete(BASE_URL+'post/delete/'+id,
-    {headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      Authorization: `Bearer ${authToken}`
-    }
-    })
-  }
 
   async function retrieveComment(){
     try{
@@ -52,7 +42,7 @@ function Post({post, currentUser, authToken}) {
         'Authorization': `Bearer ${authToken}`
     },
       data,
-      url:BASE_URL+'comment'
+      url:BASE_URL+'comment/'
     }
 
     try{

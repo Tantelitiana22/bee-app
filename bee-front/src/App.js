@@ -84,6 +84,7 @@ function App() {
         setUserId(connection.data.user_id);
 
     }catch(error){
+      alert("password or user not correct")
         console.error(error.response.data)
     }
   };
@@ -152,6 +153,7 @@ function App() {
       })
       newPosthandle(newImages.data.filename)
     }catch(error){
+
         console.log(error)
     }
   }
@@ -160,6 +162,7 @@ function App() {
     event?.preventDefault();
     setOpensignIn(false);
     getConnection(username, password);
+
   }
 
 const signOut =(event)=>{
@@ -186,6 +189,7 @@ const handleNewPost = (event)=>{
   return (
     <div className="app">
       <Modals.ModalSignIn isOpen={opensignIn}
+      authToken={authToken}
       setIsOpen={setOpensignIn}
       signIn={signIn}
       username={username}

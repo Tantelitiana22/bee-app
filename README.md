@@ -12,3 +12,10 @@ the next command:
 docker-compose up --d
 ```
 And then, the app is up to be use in dev mode
+
+## New feature:
+Add a deployement using kubernetes.
+TODO: 
+- Add secret services
+- use volume for database
+- add ingress to expose the open api page and the front page.

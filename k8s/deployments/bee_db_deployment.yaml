@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bee_db
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bee_db
+  template:
+    metadata:
+      labels:
+        app: bee_db
+    spec:
+      containers:
+      - name: bee_db
+        image: postgres:latest
+        env:
+        - name: POSTGRES_USER
+          value: postgresql
+        - name: POSTGRES_PASSWORD
+          value: postgresql
+        - name: POSTGRES_DB
+          value: bee-database
+        - name: POSTGRES_HOST
+          value: localhost
+        ports:
+        - containerPort: 5432

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bee_front
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bee_front
+  template:
+    metadata:
+      labels:
+        app: bee_front
+    spec:
+      containers:
+      - name: bee_front
+        image: bee/frontend
+        restartPolicy: Never
+        ports:
+        - containerPort: 3000

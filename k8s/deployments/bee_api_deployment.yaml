@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bee_api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bee_api
+  template:
+    metadata:
+      labels:
+        app: bee_api
+    spec:
+      containers:
+      - name: bee_api
+        image: bee/fastapi
+        restartPolicy: Never
+        ports:
+        - containerPort: 8000

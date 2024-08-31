@@ -5,6 +5,7 @@ from routers import user, post, comment
 from fastapi.staticfiles import StaticFiles
 from auth import authentication
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="BeeApp",
             openapi_url="/api/v1/bee/openapi.json",
@@ -27,13 +28,13 @@ origins =[
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins='*',
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*']
 )
 
 models.Base.metadata.create_all(engine)
-
+Instrumentator().instrument(app).expose(app)
 app.mount('/api/v1/bee/images', StaticFiles(directory='images'), name='images')
 
